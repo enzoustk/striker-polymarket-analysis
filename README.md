@@ -1,0 +1,1 @@
+Plataforma completa para análise de players da polymarket
