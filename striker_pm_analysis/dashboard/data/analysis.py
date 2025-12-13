@@ -84,9 +84,6 @@ class DataAnalyst:
         exploded = exploded[exploded['tag'].notna()]
         exploded = exploded[~exploded['tag'].isin(removed_tags)]
         
-        # LOG: Tags únicas encontradas
-        unique_tags = exploded['tag'].unique()
-        print(f"5. Tags Únicas encontradas ({len(unique_tags)}): {list(unique_tags)[:10]} ...") # Mostra só as 10 primeiras
         
         # Filtrar quais tags vamos estudar
         bets_per_tag = exploded.groupby('tag').size()
@@ -111,10 +108,8 @@ class DataAnalyst:
         df_result = pd.DataFrame(result)
 
         if df_result.empty:
-            print("AVISO: df_result final está VAZIO.")
             return pd.DataFrame(columns=['tag', 'profit', 'volume', 'roi', 'units', 'bets'])
 
-        print(f"--- Fim Debug tag_analysis (Retornando {len(df_result)} linhas) ---\n")
         return df_result.sort_values(by='roi', ascending=False)
 
     @staticmethod
