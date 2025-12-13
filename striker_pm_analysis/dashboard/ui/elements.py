@@ -160,16 +160,18 @@ def tag_df(
     ) -> None:
     st.subheader('PnL by Market')
 
+    # Extrai o DataFrame se 'df' for um objeto Styler
     dados_reais = df.data if hasattr(df, "data") else df
+    
     if dados_reais.empty:
         st.info("No data available.")
         return
 
     st.dataframe(
-        data=df,
+        data=df, # O Streamlit aceita o Styler aqui para exibir cores/formatação
         hide_index=True,
         column_order=[
-            col for col in df.columns
+            col for col in dados_reais.columns # CORREÇÃO: Usar dados_reais.columns em vez de df.columns
             if col not in ["Staked"]],
         width='stretch'
     )
@@ -333,7 +335,7 @@ def get_filtered_df(
 def stake(
     ) -> float:
     if "confirmed_stake" not in st.session_state:
-        st.session_state.confirmed_stake = 100.00 
+        st.session_state.confirmed_stake = 0.00 
 
     def aplicar_valor():
         st.session_state.confirmed_stake = st.session_state.widget_stake

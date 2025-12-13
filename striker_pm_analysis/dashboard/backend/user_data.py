@@ -37,21 +37,29 @@ def get_trades(
     with st.spinner("Fetching trades..."):
         return fetch_pnl_data(user_address)
 
-
 def merge_dfs(
     closed_df: pd.DataFrame, 
     active_df: pd.DataFrame
 ):
-    # Recebe os dois dataframes e cria um só para sintetizar as estatísticas
-    merge_df = pd.concat([active_df, closed_df])
+    # Recebe os dois dataframes e cria um só
     
+    # 1. União com ignore_index (Evita índices duplicados que quebram a UI)
+    merge_df = pd.concat([active_df, closed_df], ignore_index=True)
+    
+    # 2. Proteção contra DataFrame Vazio
     if merge_df.empty:
-        merge_df['realizedPnl'] = 0.0
-        merge_df['cashPnl'] = 0.0
-        merge_df['total_profit'] = 0.0
-        return merge_df
-        
-    # Verifica se as colunas específicas existem antes de somar (Defensive Programming)
+        # Retorna estrutura mínima para não dar erro de "KeyError" lá na frente
+        cols = ['realizedPnl', 'cashPnl', 'total_profit', 'tags', 'endDate']
+        return pd.DataFrame(columns=cols)
+
+    # 3. 🔥 A CORREÇÃO DO LOG: Garante que 'tags' existe
+    if 'tags' not in merge_df.columns:
+        merge_df['tags'] = "[]"
+    else:
+        # Se existir mas tiver buracos (NaN), preenche com lista vazia string
+        merge_df['tags'] = merge_df['tags'].fillna("[]")
+
+    # 4. Garante colunas de PnL
     if 'realizedPnl' not in merge_df.columns:
         merge_df['realizedPnl'] = 0.0
     
@@ -59,4 +67,5 @@ def merge_dfs(
         merge_df['cashPnl'] = 0.0
 
     merge_df['total_profit'] = merge_df['realizedPnl'].fillna(0) + merge_df['cashPnl'].fillna(0)
+    
     return merge_df

@@ -55,7 +55,7 @@ class DataAnalyst:
         """
         return DataAnalyst.calculate_stats(df)
     
- 
+
     @staticmethod
     def tag_analysis(
         df: pd.DataFrame,
@@ -64,15 +64,16 @@ class DataAnalyst:
         ):
         """
         Recebe um dataframe e retorna a análise do user por "tag"
+        (Versão com LOGS DE DEBUG)
         """
         
         df = df.copy()
         
         # Verificar se a coluna 'tags' existe
         if 'tags' not in df.columns:
-            print("⚠️  Aviso: Coluna 'tags' não encontrada no DataFrame. Retornando DataFrame vazio.")
+            print("ERRO: Coluna 'tags' não encontrada no DataFrame.")
             return pd.DataFrame(columns=['tag', 'profit', 'volume', 'roi', 'bets'])
-        
+                
         removed_tags = ['Games', 'Sports'] + exclude_tags
         
         # Passo 1: Criar o df
@@ -83,10 +84,14 @@ class DataAnalyst:
         exploded = exploded[exploded['tag'].notna()]
         exploded = exploded[~exploded['tag'].isin(removed_tags)]
         
-        # Filtrar quais tags vamos estudar antes de entrar em loop
+        # LOG: Tags únicas encontradas
+        unique_tags = exploded['tag'].unique()
+        print(f"5. Tags Únicas encontradas ({len(unique_tags)}): {list(unique_tags)[:10]} ...") # Mostra só as 10 primeiras
+        
+        # Filtrar quais tags vamos estudar
         bets_per_tag = exploded.groupby('tag').size()
         valid_tags = bets_per_tag[bets_per_tag >= int(min_bets)].index
-        
+
         result = []
         
         for tag in valid_tags:
@@ -106,13 +111,11 @@ class DataAnalyst:
         df_result = pd.DataFrame(result)
 
         if df_result.empty:
-            # Retorna um DataFrame vazio mas COM AS COLUNAS ESPERADAS
-            # Isso evita que o próximo passo quebre procurando 'roi' ou 'tag'
+            print("AVISO: df_result final está VAZIO.")
             return pd.DataFrame(columns=['tag', 'profit', 'volume', 'roi', 'units', 'bets'])
 
-        # Se tiver dados, ordena normalmente
+        print(f"--- Fim Debug tag_analysis (Retornando {len(df_result)} linhas) ---\n")
         return df_result.sort_values(by='roi', ascending=False)
-
 
     @staticmethod
     def print_tag_report(
