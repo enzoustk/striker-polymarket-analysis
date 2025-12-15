@@ -1,10 +1,10 @@
 import pandas as pd
 import streamlit as st
-import plotly.graph_objects as go
+from src.ui import elements
 from helpers import safe_divide
-from dashboard.ui import elements
+import plotly.graph_objects as go
+from src.backend import data_helpers as dh
 from striker_polymarket_api.rest_api.clv import fetch_clv
-from dashboard.backend import data_helpers as dh
 
 
 def run(

@@ -1,10 +1,10 @@
 import math
 import pandas as pd
 import streamlit as st
+from src.ui import formatting
 from datetime import datetime
 from helpers import safe_divide
-from dashboard.ui import formatting
-from dashboard.data.analysis import DataAnalyst
+from src.data.analysis import DataAnalyst
 
 
 def filter_and_format_closed(

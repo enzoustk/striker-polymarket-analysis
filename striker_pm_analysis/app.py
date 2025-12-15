@@ -1,6 +1,6 @@
 import streamlit as st
-from dashboard.ui import elements
-from dashboard.pages import user_analysis
+from src.ui import elements
+from src.pages import user_analysis
 
 
 # Importar o dataframe que vamos usar para testes

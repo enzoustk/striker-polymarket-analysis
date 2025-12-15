@@ -1,8 +1,7 @@
 import streamlit as st
-from  dashboard.backend import clv
-from  dashboard.ui import elements, formatting
-from  dashboard.backend import data_helpers as dh
-from  dashboard.backend import user_data, copy_trade_simulator
+from  src.ui import elements, formatting
+from  src.backend import data_helpers as dh
+from  src.backend import user_data, copy_trade_simulator, clv
 
 
 def user_analysis() -> None:

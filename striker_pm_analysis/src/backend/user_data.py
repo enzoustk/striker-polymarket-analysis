@@ -1,8 +1,8 @@
 import pandas as pd
 import streamlit as st
+from src.ui.formatting import center_text
 from striker_polymarket_api.rest import number_of_trades
 from striker_polymarket_api.subgraph import fetch_pnl_data
-from dashboard.ui.formatting import center_text
 
 
 def select_user(

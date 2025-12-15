@@ -1,12 +1,12 @@
 import pandas as pd
 import streamlit as st
 import plotly.express as px
-from datetime import datetime, timedelta
-from dateutil.relativedelta import relativedelta
+from src.ui.formatting import *
 from helpers import get_exploded_df
-from dashboard.ui.formatting import *
-from dashboard.data.analysis import DataAnalyst
-from dashboard.backend import data_helpers as dh
+from datetime import datetime, timedelta
+from src.data.analysis import DataAnalyst
+from src.backend import data_helpers as dh
+from dateutil.relativedelta import relativedelta
 
 
 def top_bar():

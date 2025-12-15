@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import streamlit as st
-from dashboard.ui import formatting
+from src.ui import formatting
 from striker_polymarket_api.rest import calculate_clv
 
 def filter_clv_df(
