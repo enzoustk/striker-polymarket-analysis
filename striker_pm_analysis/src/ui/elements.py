@@ -204,7 +204,7 @@ def time_filter_buttons(
         label="Select Time Range",
         label_visibility="collapsed",
         options=options,
-        default="Current Year",
+        default="Total",
     )
 
     if selected == "Current Week":
