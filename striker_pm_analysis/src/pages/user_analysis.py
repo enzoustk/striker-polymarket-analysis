@@ -13,7 +13,7 @@ def user_analysis() -> None:
 
 
     if st.session_state.get("selected_wallet") is None:
-        st.stop()
+        return
 
     current_address = st.session_state.get("selected_wallet")
 
@@ -42,7 +42,7 @@ def user_analysis() -> None:
     
     if st.session_state["merge_df"].empty:
         st.warning(f"A carteira {current_address} não possui trades registrados.")
-        st.stop()
+        return
     
     
     st.divider()
